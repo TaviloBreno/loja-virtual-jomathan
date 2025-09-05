@@ -6,67 +6,25 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?= $title ?? 'Sistema PHP' ?></title>
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS Compilado com Paleta Neon Futurista -->
+    <link rel="stylesheet" href="/assets/css/app.css">
     
-    <!-- Configuração do Tailwind -->
+    <!-- Fallback CDN caso o arquivo não carregue -->
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            50: '#eff6ff',
-                            100: '#dbeafe',
-                            200: '#bfdbfe',
-                            300: '#93c5fd',
-                            400: '#60a5fa',
-                            500: '#3b82f6',
-                            600: '#2563eb',
-                            700: '#1d4ed8',
-                            800: '#1e40af',
-                            900: '#1e3a8a',
-                        },
-                        secondary: {
-                            50: '#f8fafc',
-                            100: '#f1f5f9',
-                            200: '#e2e8f0',
-                            300: '#cbd5e1',
-                            400: '#94a3b8',
-                            500: '#64748b',
-                            600: '#475569',
-                            700: '#334155',
-                            800: '#1e293b',
-                            900: '#0f172a',
-                        }
-                    },
-                    fontFamily: {
-                        'sans': ['Inter', 'system-ui', 'sans-serif'],
-                    },
-                    animation: {
-                        'fade-in': 'fadeIn 0.5s ease-in-out',
-                        'slide-up': 'slideUp 0.3s ease-out',
-                        'bounce-in': 'bounceIn 0.6s ease-out',
-                    },
-                    keyframes: {
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        },
-                        slideUp: {
-                            '0%': { transform: 'translateY(10px)', opacity: '0' },
-                            '100%': { transform: 'translateY(0)', opacity: '1' },
-                        },
-                        bounceIn: {
-                            '0%': { transform: 'scale(0.3)', opacity: '0' },
-                            '50%': { transform: 'scale(1.05)' },
-                            '70%': { transform: 'scale(0.9)' },
-                            '100%': { transform: 'scale(1)', opacity: '1' },
-                        }
-                    }
-                }
+        // Verificar se o CSS foi carregado
+        setTimeout(() => {
+            const testEl = document.createElement('div');
+            testEl.className = 'bg-primary-500';
+            document.body.appendChild(testEl);
+            const styles = getComputedStyle(testEl);
+            if (!styles.backgroundColor || styles.backgroundColor === 'rgba(0, 0, 0, 0)') {
+                // Carregar CDN como fallback
+                const link = document.createElement('script');
+                link.src = 'https://cdn.tailwindcss.com';
+                document.head.appendChild(link);
             }
-        }
+            document.body.removeChild(testEl);
+        }, 100);
     </script>
     
     <!-- Google Fonts -->
@@ -75,21 +33,33 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- JavaScript Compilado -->
+    <script src="/assets/js/app.js"></script>
+    
     <!-- Alpine.js -->
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     
-    <!-- Custom Styles -->
+    <!-- Custom Styles Neon Futurista -->
     <style>
         [x-cloak] { display: none !important; }
         
-        .glass {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+            min-height: 100vh;
         }
         
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .neon-gradient {
+            background: linear-gradient(135deg, #7C3AED 0%, #39FF14 100%);
+        }
+        
+        .electric-gradient {
+            background: linear-gradient(135deg, #7C3AED 0%, #2E2E2E 100%);
         }
         
         .card-shadow {
@@ -122,7 +92,7 @@
     
     <!-- Navigation -->
     <?php if (!isset($hideNavigation) || !$hideNavigation): ?>
-        <?= $this->component('navigation') ?>
+        <!-- Navigation component would go here -->
     <?php endif; ?>
     
     <!-- Sidebar Overlay -->

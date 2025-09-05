@@ -13,6 +13,11 @@ use App\Infrastructure\Http\Router;
 // Rota inicial
 $router->get('/', 'HomeController@index');
 
+// Rota de demonstração dos componentes Neon Futurista
+$router->get('/demo/components', function() {
+    include __DIR__ . '/../resources/views/pages/demo/components.php';
+});
+
 // Rotas de exemplo para usuários
 $router->get('/users', 'UserController@index');
 $router->get('/users/create', 'UserController@create');
