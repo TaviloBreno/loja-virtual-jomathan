@@ -1,333 +1,580 @@
 <?php
 // Configurações da página
-$title = 'Início - Sistema PHP';
-$currentRoute = '/';
-$breadcrumbs = [];
-$showDemo = true; // Para mostrar mensagens flash de demonstração
+$title = 'StyleHub - Moda & Estilo';
+$show_header = true;
+$show_footer = true;
 
-// Dados de exemplo para o dashboard
-$stats = [
+// Dados simulados para demonstração
+$featured_products = [
     [
-        'title' => 'Total de Usuários',
-        'value' => '1,234',
-        'change' => '+12%',
-        'changeType' => 'positive',
-        'icon' => 'fas fa-users',
-        'color' => 'blue'
+        'id' => 1,
+        'name' => 'Vestido Floral Elegante',
+        'price' => 189.99,
+        'original_price' => 249.99,
+        'image' => 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop',
+        'rating' => 4.8,
+        'reviews' => 156,
+        'badge' => 'Destaque',
+        'discount' => 24
     ],
     [
-        'title' => 'Vendas do Mês',
-        'value' => 'R$ 45.678',
-        'change' => '+8%',
-        'changeType' => 'positive',
-        'icon' => 'fas fa-chart-line',
-        'color' => 'green'
+        'id' => 2,
+        'name' => 'Blazer Feminino Premium',
+        'price' => 299.99,
+        'original_price' => 399.99,
+        'image' => 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=500&fit=crop',
+        'rating' => 4.9,
+        'reviews' => 89,
+        'badge' => 'Mais Vendido',
+        'discount' => 25
     ],
     [
-        'title' => 'Pedidos Pendentes',
-        'value' => '23',
-        'change' => '-5%',
-        'changeType' => 'negative',
-        'icon' => 'fas fa-clock',
-        'color' => 'yellow'
+        'id' => 3,
+        'name' => 'Calça Jeans Skinny',
+        'price' => 129.99,
+        'original_price' => 179.99,
+        'image' => 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400&h=500&fit=crop',
+        'rating' => 4.7,
+        'reviews' => 234,
+        'badge' => 'Oferta',
+        'discount' => 28
     ],
     [
-        'title' => 'Taxa de Conversão',
-        'value' => '3.2%',
-        'change' => '+0.5%',
-        'changeType' => 'positive',
-        'icon' => 'fas fa-percentage',
-        'color' => 'purple'
+        'id' => 4,
+        'name' => 'Blusa Cropped Moderna',
+        'price' => 89.99,
+        'original_price' => 119.99,
+        'image' => 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&h=500&fit=crop',
+        'rating' => 4.6,
+        'reviews' => 178,
+        'badge' => 'Novo',
+        'discount' => 25
+    ]
+];
+
+$new_products = [
+    [
+        'id' => 5,
+        'name' => 'Saia Midi Plissada',
+        'price' => 149.99,
+        'image' => 'https://images.unsplash.com/photo-1583496661160-fb5886a13d24?w=400&h=500&fit=crop',
+        'rating' => 4.5,
+        'reviews' => 67
+    ],
+    [
+        'id' => 6,
+        'name' => 'Casaco de Inverno',
+        'price' => 399.99,
+        'image' => 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=500&fit=crop',
+        'rating' => 4.8,
+        'reviews' => 45
+    ],
+    [
+        'id' => 7,
+        'name' => 'Tênis Casual Branco',
+        'price' => 199.99,
+        'image' => 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=500&fit=crop',
+        'rating' => 4.9,
+        'reviews' => 123
+    ],
+    [
+        'id' => 8,
+        'name' => 'Bolsa Transversal',
+        'price' => 159.99,
+        'image' => 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=500&fit=crop',
+        'rating' => 4.7,
+        'reviews' => 89
     ]
 ];
 
 $recentActivities = [
     [
         'user' => 'João Silva',
-        'action' => 'criou um novo usuário',
-        'target' => 'Maria Santos',
-        'time' => '5 minutos atrás',
-        'icon' => 'fas fa-user-plus',
+        'action' => 'fez um pedido de',
+        'target' => 'Smartphone Galaxy Neon',
+        'time' => 'há 2 minutos',
+        'icon' => 'fas fa-shopping-cart',
         'color' => 'green'
     ],
     [
-        'user' => 'Ana Costa',
-        'action' => 'atualizou o relatório',
-        'target' => 'Vendas Q4',
-        'time' => '15 minutos atrás',
-        'icon' => 'fas fa-edit',
+        'user' => 'Maria Santos',
+        'action' => 'avaliou o produto',
+        'target' => 'Notebook Gaming RGB',
+        'time' => 'há 5 minutos',
+        'icon' => 'fas fa-star',
+        'color' => 'yellow'
+    ],
+    [
+        'user' => 'Pedro Costa',
+        'action' => 'adicionou ao carrinho',
+        'target' => 'Headset Wireless Pro',
+        'time' => 'há 8 minutos',
+        'icon' => 'fas fa-cart-plus',
         'color' => 'blue'
     ],
     [
-        'user' => 'Carlos Lima',
-        'action' => 'fez backup do sistema',
-        'target' => '',
-        'time' => '1 hora atrás',
-        'icon' => 'fas fa-database',
+        'user' => 'Ana Oliveira',
+        'action' => 'visualizou',
+        'target' => 'Smartwatch Elite',
+        'time' => 'há 12 minutos',
+        'icon' => 'fas fa-eye',
         'color' => 'purple'
-    ],
-    [
-        'user' => 'Sistema',
-        'action' => 'executou manutenção automática',
-        'target' => '',
-        'time' => '2 horas atrás',
-        'icon' => 'fas fa-cog',
-        'color' => 'gray'
     ]
 ];
 
-$quickActions = [
+$categories = [
     [
-        'title' => 'Novo Usuário',
-        'description' => 'Cadastrar um novo usuário no sistema',
-        'url' => '/users/create',
-        'icon' => 'fas fa-user-plus',
-        'color' => 'blue'
+        'id' => 1,
+        'name' => 'Vestidos',
+        'icon' => 'fas fa-tshirt',
+        'image' => 'https://images.unsplash.com/photo-1566479179817-c0ae8e0d4b4e?w=300&h=200&fit=crop',
+        'products_count' => 156,
+        'color' => 'from-pink-500 to-rose-600'
     ],
     [
-        'title' => 'Relatório',
-        'description' => 'Gerar relatório de vendas',
-        'url' => '/reports/sales',
-        'icon' => 'fas fa-chart-bar',
-        'color' => 'green'
+        'id' => 2,
+        'name' => 'Blusas',
+        'icon' => 'fas fa-user-tie',
+        'image' => 'https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=300&h=200&fit=crop',
+        'products_count' => 89,
+        'color' => 'from-purple-500 to-indigo-600'
     ],
     [
-        'title' => 'Backup',
-        'description' => 'Fazer backup do banco de dados',
-        'url' => '/backup',
-        'icon' => 'fas fa-download',
-        'color' => 'purple'
+        'id' => 3,
+        'name' => 'Calças',
+        'icon' => 'fas fa-cut',
+        'image' => 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300&h=200&fit=crop',
+        'products_count' => 234,
+        'color' => 'from-blue-500 to-cyan-600'
     ],
     [
-        'title' => 'Configurações',
-        'description' => 'Ajustar configurações do sistema',
-        'url' => '/settings',
-        'icon' => 'fas fa-cog',
-        'color' => 'gray'
+        'id' => 4,
+        'name' => 'Acessórios',
+        'icon' => 'fas fa-gem',
+        'image' => 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=300&h=200&fit=crop',
+        'products_count' => 78,
+        'color' => 'from-amber-500 to-orange-600'
+    ],
+    [
+        'id' => 5,
+        'name' => 'Sapatos',
+        'icon' => 'fas fa-shoe-prints',
+        'image' => 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=300&h=200&fit=crop',
+        'products_count' => 145,
+        'color' => 'from-red-500 to-pink-600'
+    ],
+    [
+        'id' => 6,
+        'name' => 'Bolsas',
+        'icon' => 'fas fa-shopping-bag',
+        'image' => 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=200&fit=crop',
+        'products_count' => 203,
+        'color' => 'from-emerald-500 to-teal-600'
     ]
 ];
 
-// Conteúdo da página
 ob_start();
 ?>
 
 <!-- Hero Section -->
-<div class="bg-gradient-to-r from-primary-600 to-primary-800 rounded-xl shadow-lg p-8 mb-8 text-white">
-    <div class="flex flex-col md:flex-row items-center justify-between">
-        <div class="mb-6 md:mb-0">
-            <h1 class="text-3xl md:text-4xl font-bold mb-2">Bem-vindo ao Sistema PHP!</h1>
-            <p class="text-primary-100 text-lg">Gerencie seus dados de forma eficiente e moderna</p>
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <!-- Background Gradient -->
+    <div class="absolute inset-0 bg-gradient-to-br from-rose-100 via-pink-50 to-purple-100"></div>
+    
+    <!-- Animated Background Elements -->
+    <div class="absolute inset-0">
+        <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-rose-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+        <div class="absolute top-3/4 right-1/4 w-64 h-64 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-2000"></div>
+        <div class="absolute bottom-1/4 left-1/2 w-64 h-64 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-4000"></div>
+    </div>
+    
+    <div class="relative z-10 container mx-auto px-4 text-center">
+        <h1 class="text-6xl md:text-8xl font-bold text-gray-800 mb-6 animate-fade-in">
+            <span class="bg-gradient-to-r from-rose-600 via-pink-600 to-purple-600 bg-clip-text text-transparent">
+                Style
+            </span>
+            <span class="text-gray-800">Hub</span>
+        </h1>
+        
+        <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto animate-fade-in animation-delay-500">
+            Descubra as últimas tendências da moda feminina com peças exclusivas e elegantes para todos os momentos.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in animation-delay-1000">
+            <a href="#featured" class="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white px-8 py-4 text-lg font-semibold rounded-full hover:scale-105 transition-all duration-300">
+                <i class="fas fa-shopping-bag mr-2"></i>
+                Explorar Coleção
+            </a>
+            <a href="#categories" class="border-2 border-rose-300 hover:border-rose-500 text-rose-600 hover:text-rose-700 px-8 py-4 text-lg font-semibold rounded-full hover:scale-105 transition-all duration-300">
+                <i class="fas fa-th-large mr-2"></i>
+                Ver Categorias
+            </a>
         </div>
-        <div class="flex-shrink-0">
-            <div class="w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                <i class="fas fa-rocket text-4xl text-white"></i>
+        
+        <!-- Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 animate-fade-in animation-delay-1500">
+            <div class="text-center">
+                <div class="text-3xl font-bold text-rose-500 mb-2">5K+</div>
+                <div class="text-gray-600">Peças</div>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl font-bold text-pink-500 mb-2">25K+</div>
+                <div class="text-gray-600">Clientes</div>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl font-bold text-purple-500 mb-2">98%</div>
+                <div class="text-gray-600">Satisfação</div>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl font-bold text-rose-400 mb-2">24/7</div>
+                <div class="text-gray-600">Atendimento</div>
             </div>
         </div>
     </div>
-</div>
-
-<!-- Estatísticas -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-    <?php foreach ($stats as $stat): ?>
-        <div class="bg-white rounded-lg shadow-sm border border-secondary-200 p-6 hover:shadow-md transition-shadow duration-200">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-secondary-600 mb-1"><?= htmlspecialchars($stat['title']) ?></p>
-                    <p class="text-2xl font-bold text-secondary-900"><?= htmlspecialchars($stat['value']) ?></p>
-                    <div class="flex items-center mt-2">
-                        <span class="text-sm font-medium <?= $stat['changeType'] === 'positive' ? 'text-green-600' : 'text-red-600' ?>">
-                            <i class="fas fa-arrow-<?= $stat['changeType'] === 'positive' ? 'up' : 'down' ?> mr-1"></i>
-                            <?= htmlspecialchars($stat['change']) ?>
+    
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <i class="fas fa-chevron-down text-gray-600 text-2xl opacity-60"></i>
+    </div>
+</section>
+<!-- Featured Products Section -->
+<section id="featured" class="py-32 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-20">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+                Peças em <span class="bg-gradient-to-r from-rose-500 to-pink-600 bg-clip-text text-transparent">Destaque</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Descubra nossa seleção especial de peças com as melhores ofertas e os looks mais modernos da temporada
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <?php foreach ($featured_products as $product): ?>
+                <div class="group relative bg-gray-800 rounded-2xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300 card-shadow">
+                    <!-- Product Badge -->
+                    <div class="absolute top-4 left-4 z-10">
+                        <span class="px-3 py-1 text-xs font-semibold rounded-full <?= $product['badge'] === 'Destaque' ? 'bg-purple-500 text-white' : ($product['badge'] === 'Mais Vendido' ? 'bg-green-500 text-white' : ($product['badge'] === 'Oferta' ? 'bg-red-500 text-white' : 'bg-cyan-500 text-white')) ?>">
+                            <?= htmlspecialchars($product['badge']) ?>
                         </span>
-                        <span class="text-sm text-secondary-500 ml-2">vs mês anterior</span>
                     </div>
-                </div>
-                <div class="flex-shrink-0">
-                    <div class="w-12 h-12 bg-<?= $stat['color'] ?>-100 rounded-lg flex items-center justify-center">
-                        <i class="<?= $stat['icon'] ?> text-<?= $stat['color'] ?>-600 text-xl"></i>
+                    
+                    <!-- Discount Badge -->
+                    <?php if ($product['discount']): ?>
+                        <div class="absolute top-4 right-4 z-10">
+                            <span class="px-2 py-1 text-xs font-bold bg-red-500 text-white rounded-full">
+                                -<?= $product['discount'] ?>%
+                            </span>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <!-- Product Image -->
+                    <div class="relative h-64 bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
+                        <div class="w-32 h-32 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-lg opacity-20"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i class="fas fa-mobile-alt text-6xl text-gray-400"></i>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    <?php endforeach; ?>
-</div>
-
-<!-- Conteúdo Principal -->
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-    
-    <!-- Ações Rápidas -->
-    <div class="lg:col-span-2">
-        <div class="bg-white rounded-lg shadow-sm border border-secondary-200 p-6">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-lg font-semibold text-secondary-900">Ações Rápidas</h2>
-                <i class="fas fa-bolt text-primary-600"></i>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <?php foreach ($quickActions as $action): ?>
-                    <a href="<?= htmlspecialchars($action['url']) ?>" 
-                       class="group p-4 border border-secondary-200 rounded-lg hover:border-<?= $action['color'] ?>-300 hover:shadow-md transition-all duration-200">
-                        <div class="flex items-start space-x-3">
-                            <div class="flex-shrink-0">
-                                <div class="w-10 h-10 bg-<?= $action['color'] ?>-100 group-hover:bg-<?= $action['color'] ?>-200 rounded-lg flex items-center justify-center transition-colors duration-200">
-                                    <i class="<?= $action['icon'] ?> text-<?= $action['color'] ?>-600"></i>
-                                </div>
+                    
+                    <!-- Product Info -->
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold text-white mb-2 group-hover:text-cyan-400 transition-colors">
+                            <?= htmlspecialchars($product['name']) ?>
+                        </h3>
+                        
+                        <!-- Rating -->
+                        <div class="flex items-center mb-3">
+                            <div class="flex text-yellow-400 mr-2">
+                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                    <i class="fas fa-star <?= $i <= floor($product['rating']) ? '' : 'opacity-30' ?>"></i>
+                                <?php endfor; ?>
                             </div>
-                            <div class="flex-1 min-w-0">
-                                <h3 class="text-sm font-medium text-secondary-900 group-hover:text-<?= $action['color'] ?>-700 transition-colors duration-200">
-                                    <?= htmlspecialchars($action['title']) ?>
-                                </h3>
-                                <p class="text-sm text-secondary-500 mt-1">
-                                    <?= htmlspecialchars($action['description']) ?>
-                                </p>
-                            </div>
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-chevron-right text-secondary-400 group-hover:text-<?= $action['color'] ?>-600 transition-colors duration-200"></i>
-                            </div>
+                            <span class="text-sm text-gray-400">
+                                <?= $product['rating'] ?> (<?= $product['reviews'] ?> avaliações)
+                            </span>
                         </div>
-                    </a>
-                <?php endforeach; ?>
-            </div>
-        </div>
-        
-        <!-- Gráfico de Exemplo -->
-        <div class="bg-white rounded-lg shadow-sm border border-secondary-200 p-6 mt-8">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-lg font-semibold text-secondary-900">Vendas dos Últimos 7 Dias</h2>
-                <div class="flex space-x-2">
-                    <button class="text-sm text-secondary-500 hover:text-primary-600 transition-colors">7 dias</button>
-                    <button class="text-sm text-primary-600 font-medium">30 dias</button>
-                    <button class="text-sm text-secondary-500 hover:text-primary-600 transition-colors">90 dias</button>
-                </div>
-            </div>
-            
-            <!-- Placeholder para gráfico -->
-            <div class="h-64 bg-secondary-50 rounded-lg flex items-center justify-center">
-                <div class="text-center">
-                    <i class="fas fa-chart-line text-4xl text-secondary-300 mb-4"></i>
-                    <p class="text-secondary-500">Gráfico será implementado aqui</p>
-                    <p class="text-sm text-secondary-400 mt-1">Chart.js, D3.js ou similar</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Atividades Recentes -->
-    <div>
-        <div class="bg-white rounded-lg shadow-sm border border-secondary-200 p-6">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-lg font-semibold text-secondary-900">Atividades Recentes</h2>
-                <a href="/activities" class="text-sm text-primary-600 hover:text-primary-700 transition-colors">Ver todas</a>
-            </div>
-            
-            <div class="space-y-4">
-                <?php foreach ($recentActivities as $activity): ?>
-                    <div class="flex items-start space-x-3">
-                        <div class="flex-shrink-0">
-                            <div class="w-8 h-8 bg-<?= $activity['color'] ?>-100 rounded-full flex items-center justify-center">
-                                <i class="<?= $activity['icon'] ?> text-<?= $activity['color'] ?>-600 text-xs"></i>
-                            </div>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <p class="text-sm text-secondary-900">
-                                <span class="font-medium"><?= htmlspecialchars($activity['user']) ?></span>
-                                <?= htmlspecialchars($activity['action']) ?>
-                                <?php if ($activity['target']): ?>
-                                    <span class="font-medium"><?= htmlspecialchars($activity['target']) ?></span>
+                        
+                        <!-- Price -->
+                        <div class="mb-4">
+                            <div class="flex items-center gap-2">
+                                <span class="text-2xl font-bold text-cyan-400">
+                                    R$ <?= number_format($product['price'], 2, ',', '.') ?>
+                                </span>
+                                <?php if ($product['original_price'] > $product['price']): ?>
+                                    <span class="text-sm text-gray-500 line-through">
+                                        R$ <?= number_format($product['original_price'], 2, ',', '.') ?>
+                                    </span>
                                 <?php endif; ?>
-                            </p>
-                            <p class="text-xs text-secondary-500 mt-1"><?= htmlspecialchars($activity['time']) ?></p>
+                            </div>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="flex gap-2">
+                            <button class="flex-1 btn-primary py-2 text-sm font-medium rounded-lg hover:bg-purple-600 transition-colors">
+                                <i class="fas fa-shopping-cart mr-1"></i>
+                                Comprar
+                            </button>
+                            <button class="p-2 text-gray-400 hover:text-red-400 transition-colors">
+                                <i class="fas fa-heart"></i>
+                            </button>
                         </div>
                     </div>
-                <?php endforeach; ?>
-            </div>
+                </div>
+            <?php endforeach; ?>
         </div>
         
-        <!-- Status do Sistema -->
-        <div class="bg-white rounded-lg shadow-sm border border-secondary-200 p-6 mt-6">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-lg font-semibold text-secondary-900">Status do Sistema</h2>
-                <div class="flex items-center space-x-2">
-                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                    <span class="text-sm text-green-600 font-medium">Online</span>
-                </div>
-            </div>
-            
-            <div class="space-y-3">
-                <div class="flex items-center justify-between">
-                    <span class="text-sm text-secondary-600">Servidor Web</span>
-                    <span class="text-sm font-medium text-green-600">✓ Funcionando</span>
-                </div>
-                <div class="flex items-center justify-between">
-                    <span class="text-sm text-secondary-600">Banco de Dados</span>
-                    <span class="text-sm font-medium text-green-600">✓ Conectado</span>
-                </div>
-                <div class="flex items-center justify-between">
-                    <span class="text-sm text-secondary-600">Cache</span>
-                    <span class="text-sm font-medium text-green-600">✓ Ativo</span>
-                </div>
-                <div class="flex items-center justify-between">
-                    <span class="text-sm text-secondary-600">Último Backup</span>
-                    <span class="text-sm font-medium text-secondary-900">Hoje, 03:00</span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Links Úteis -->
-        <div class="bg-white rounded-lg shadow-sm border border-secondary-200 p-6 mt-6">
-            <h2 class="text-lg font-semibold text-secondary-900 mb-4">Links Úteis</h2>
-            
-            <div class="space-y-2">
-                <a href="/docs" class="flex items-center space-x-2 text-sm text-secondary-600 hover:text-primary-600 transition-colors">
-                    <i class="fas fa-book text-xs"></i>
-                    <span>Documentação</span>
-                </a>
-                <a href="/help" class="flex items-center space-x-2 text-sm text-secondary-600 hover:text-primary-600 transition-colors">
-                    <i class="fas fa-question-circle text-xs"></i>
-                    <span>Central de Ajuda</span>
-                </a>
-                <a href="/contact" class="flex items-center space-x-2 text-sm text-secondary-600 hover:text-primary-600 transition-colors">
-                    <i class="fas fa-envelope text-xs"></i>
-                    <span>Suporte</span>
-                </a>
-                <a href="/changelog" class="flex items-center space-x-2 text-sm text-secondary-600 hover:text-primary-600 transition-colors">
-                    <i class="fas fa-history text-xs"></i>
-                    <span>Novidades</span>
-                </a>
-            </div>
+        <div class="text-center mt-12">
+            <a href="/produtos" class="btn-secondary px-8 py-3 font-semibold rounded-full hover:scale-105 transition-all duration-300">
+                Ver Todos os Produtos
+                <i class="fas fa-arrow-right ml-2"></i>
+            </a>
         </div>
     </div>
-</div>
+</section>
 
-<!-- Scripts específicos da página -->
+<!-- Categories Section -->
+<section id="categories" class="py-32 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-20">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+                Explore por <span class="bg-gradient-to-r from-purple-500 to-pink-600 bg-clip-text text-transparent">Categoria</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Encontre exatamente o que você procura navegando por nossas categorias de moda feminina
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <?php foreach ($categories as $category): ?>
+                <a href="/categoria/<?= $category['id'] ?>" class="group relative bg-gradient-to-br <?= $category['color'] ?> rounded-2xl p-8 hover:transform hover:scale-105 transition-all duration-300 card-shadow overflow-hidden">
+                    <!-- Background Pattern -->
+                    <div class="absolute inset-0 opacity-10">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-white rounded-full transform translate-x-16 -translate-y-16"></div>
+                        <div class="absolute bottom-0 left-0 w-24 h-24 bg-white rounded-full transform -translate-x-12 translate-y-12"></div>
+                    </div>
+                    
+                    <div class="relative z-10">
+                        <div class="text-4xl text-white mb-4">
+                            <i class="<?= $category['icon'] ?>"></i>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-gray-100 transition-colors">
+                            <?= htmlspecialchars($category['name']) ?>
+                        </h3>
+                        
+                        <p class="text-white/80 mb-4">
+                            <?= $category['products_count'] ?> produtos disponíveis
+                        </p>
+                        
+                        <div class="flex items-center text-white/90 group-hover:text-white transition-colors">
+                            <span class="font-medium">Explorar categoria</span>
+                            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+                </a>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+
+<!-- New Products Section -->
+<section class="py-32 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-20">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+                Novos <span class="bg-gradient-to-r from-amber-500 to-rose-500 bg-clip-text text-transparent">Lançamentos</span>
+            </h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                Seja a primeira a descobrir as peças mais recentes e as tendências que estão chegando
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <?php foreach ($new_products as $product): ?>
+                <div class="group relative bg-gray-800 rounded-2xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300 card-shadow">
+                    <!-- New Badge -->
+                    <div class="absolute top-4 left-4 z-10">
+                        <span class="px-3 py-1 text-xs font-semibold bg-green-500 text-white rounded-full">
+                            Novo
+                        </span>
+                    </div>
+                    
+                    <!-- Product Image -->
+                    <div class="relative h-64 bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
+                        <div class="w-32 h-32 bg-gradient-to-br from-green-500 to-yellow-500 rounded-lg opacity-20"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i class="fas fa-cube text-6xl text-gray-400"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Product Info -->
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold text-white mb-2 group-hover:text-green-400 transition-colors">
+                            <?= htmlspecialchars($product['name']) ?>
+                        </h3>
+                        
+                        <!-- Rating -->
+                        <div class="flex items-center mb-3">
+                            <div class="flex text-yellow-400 mr-2">
+                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                    <i class="fas fa-star <?= $i <= floor($product['rating']) ? '' : 'opacity-30' ?>"></i>
+                                <?php endfor; ?>
+                            </div>
+                            <span class="text-sm text-gray-400">
+                                <?= $product['rating'] ?> (<?= $product['reviews'] ?> avaliações)
+                            </span>
+                        </div>
+                        
+                        <!-- Price -->
+                        <div class="mb-4">
+                            <span class="text-2xl font-bold text-green-400">
+                                R$ <?= number_format($product['price'], 2, ',', '.') ?>
+                            </span>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="flex gap-2">
+                            <button class="flex-1 btn-primary py-2 text-sm font-medium rounded-lg hover:bg-green-600 transition-colors">
+                                <i class="fas fa-shopping-cart mr-1"></i>
+                                Comprar
+                            </button>
+                            <button class="p-2 text-gray-400 hover:text-red-400 transition-colors">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="/novidades" class="btn-secondary px-8 py-3 font-semibold rounded-full hover:scale-105 transition-all duration-300">
+                Ver Todos os Lançamentos
+                <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Section -->
+<section class="py-32 bg-gradient-to-r from-rose-100 via-pink-50 to-purple-100">
+    <div class="container mx-auto px-4 text-center">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+                Fique por <span class="bg-gradient-to-r from-rose-500 to-pink-600 bg-clip-text text-transparent">Dentro</span>
+            </h2>
+            <p class="text-xl text-gray-600 mb-8">
+                Receba as últimas tendências, ofertas exclusivas e lançamentos de moda diretamente no seu e-mail
+            </p>
+            
+            <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" onsubmit="subscribeNewsletter(event)">
+                <input 
+                    type="email" 
+                    placeholder="Seu melhor e-mail" 
+                    class="flex-1 px-6 py-4 rounded-full bg-white border border-rose-200 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400"
+                    required
+                >
+                <button 
+                    type="submit" 
+                    class="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 px-8 py-4 rounded-full font-semibold text-white transition-all duration-300 transform hover:scale-105"
+                >
+                    <i class="fas fa-heart mr-2"></i>
+                    Inscrever-se
+                </button>
+            </form>
+            
+            <p class="text-sm text-gray-500 mt-4">
+                Não enviamos spam. Você pode cancelar a qualquer momento.
+            </p>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Custom Animations */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.8s ease-out forwards;
+}
+
+.animation-delay-500 {
+    animation-delay: 0.5s;
+    opacity: 0;
+}
+
+.animation-delay-1000 {
+    animation-delay: 1s;
+    opacity: 0;
+}
+
+.animation-delay-1500 {
+    animation-delay: 1.5s;
+    opacity: 0;
+}
+
+.animation-delay-2000 {
+    animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+    animation-delay: 4s;
+}
+
+.btn-primary {
+    @apply bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2;
+}
+
+.btn-secondary {
+    @apply bg-white/10 hover:bg-white/20 text-white font-medium border border-white/20 hover:border-white/30 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/50 backdrop-blur-sm;
+}
+</style>
+
 <script>
-    // Atualizar estatísticas em tempo real (simulação)
-    function updateStats() {
-        // Simular atualizações das estatísticas
-        console.log('Atualizando estatísticas...');
+function subscribeNewsletter(event) {
+    event.preventDefault();
+    const email = event.target.querySelector('input[type="email"]').value;
+    
+    // Simular inscrição
+    if (window.showSuccess) {
+        window.showSuccess('Inscrição realizada com sucesso! Bem-vindo à NeonShop.');
     }
     
-    // Atualizar a cada 30 segundos
-    setInterval(updateStats, 30000);
+    event.target.reset();
+}
+
+// Smooth scroll para links internos
+document.addEventListener('DOMContentLoaded', function() {
+    const links = document.querySelectorAll('a[href^="#"]');
     
-    // Animações de entrada
-    document.addEventListener('DOMContentLoaded', function() {
-        // Animar cards de estatísticas
-        const statCards = document.querySelectorAll('.grid > div');
-        statCards.forEach((card, index) => {
-            setTimeout(() => {
-                card.classList.add('animate-fade-in');
-            }, index * 100);
+    links.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            
+            if (targetSection) {
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
         });
     });
+});
 </script>
 
 <?php
 $content = ob_get_clean();
-
-// Usar o sistema de layout do ViewRenderer
-$this->extends('layouts/app');
-$this->section('content');
-echo $content;
-$this->endSection();
+include __DIR__ . '/../layouts/app.php';
 ?>

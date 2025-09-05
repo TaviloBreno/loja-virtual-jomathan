@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><?= $title ?? 'Sistema PHP' ?></title>
+    <title><?= $title ?? 'NeonShop - E-commerce Futurista' ?></title>
     
     <!-- Tailwind CSS Compilado com Paleta Neon Futurista -->
     <link rel="stylesheet" href="/assets/css/app.css">
@@ -32,9 +32,6 @@
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- JavaScript Compilado -->
-    <script src="/assets/js/app.js"></script>
     
     <!-- Alpine.js -->
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -66,16 +63,29 @@
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
         
-        .btn-primary {
-            @apply bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+        /* Particle Effect */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
         }
         
-        .btn-secondary {
-            @apply bg-secondary-100 hover:bg-secondary-200 text-secondary-800 font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2;
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(59, 130, 246, 0.6);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
         }
         
-        .input-field {
-            @apply w-full px-3 py-2 border border-secondary-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200;
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+            50% { transform: translateY(-100px) rotate(180deg); opacity: 1; }
         }
     </style>
     
@@ -83,67 +93,86 @@
         <?= $additionalHead ?>
     <?php endif; ?>
 </head>
-<body class="bg-secondary-50 font-sans antialiased" x-data="{ sidebarOpen: false, darkMode: false }" :class="{ 'dark': darkMode }">
+<body class="font-sans antialiased" x-data="{ sidebarOpen: false, darkMode: false }" :class="{ 'dark': darkMode }">
+    
+    <!-- Particles Background -->
+    <div class="particles" id="particles"></div>
     
     <!-- Loading Spinner -->
-    <div id="loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center" x-show="false" x-cloak>
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+    <div id="loading" class="fixed inset-0 bg-gray-900 z-50 flex items-center justify-center" x-show="false" x-cloak>
+        <div class="text-center">
+            <div class="w-16 h-16 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p class="text-white text-lg">Carregando...</p>
+        </div>
     </div>
     
-    <!-- Navigation -->
-    <?php if (!isset($hideNavigation) || !$hideNavigation): ?>
-        <!-- Navigation component would go here -->
+    <!-- Header -->
+    <?php if ($show_header ?? true): ?>
+        <?php include __DIR__ . '/../../app/Presentation/Components/header.php'; ?>
     <?php endif; ?>
     
-    <!-- Sidebar Overlay -->
-    <div 
-        x-show="sidebarOpen" 
-        x-transition:enter="transition-opacity ease-linear duration-300"
-        x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100"
-        x-transition:leave="transition-opacity ease-linear duration-300"
-        x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0"
-        class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
-        @click="sidebarOpen = false"
-        x-cloak
-    ></div>
-    
     <!-- Main Content -->
-    <main class="<?= isset($containerClass) ? $containerClass : 'container mx-auto px-4 py-8' ?>">
+    <main class="min-h-screen relative z-10 <?= isset($containerClass) ? $containerClass : '' ?>">
         
         <!-- Flash Messages -->
-        <?= $this->component('flash-messages') ?>
+        <?php if (isset($flash_messages) && !empty($flash_messages)): ?>
+            <div class="container mx-auto px-4 pt-4">
+                <?php foreach ($flash_messages as $type => $message): ?>
+                    <div class="alert alert-<?= $type ?> mb-4 p-4 rounded-lg">
+                        <?= htmlspecialchars($message) ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
         
         <!-- Breadcrumbs -->
         <?php if (isset($breadcrumbs) && !empty($breadcrumbs)): ?>
-            <?= $this->component('breadcrumbs', ['items' => $breadcrumbs]) ?>
+            <div class="container mx-auto px-4 py-2">
+                <nav class="flex" aria-label="Breadcrumb">
+                    <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                        <?php foreach ($breadcrumbs as $index => $crumb): ?>
+                            <li class="inline-flex items-center">
+                                <?php if ($index > 0): ?>
+                                    <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                                <?php endif; ?>
+                                <?php if (isset($crumb['url'])): ?>
+                                    <a href="<?= htmlspecialchars($crumb['url']) ?>" class="text-gray-400 hover:text-primary-400 transition-colors">
+                                        <?= htmlspecialchars($crumb['title']) ?>
+                                    </a>
+                                <?php else: ?>
+                                    <span class="text-gray-300"><?= htmlspecialchars($crumb['title']) ?></span>
+                                <?php endif; ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </ol>
+                </nav>
+            </div>
         <?php endif; ?>
         
         <!-- Page Header -->
         <?php if (isset($pageHeader)): ?>
-            <div class="mb-8">
+            <div class="container mx-auto px-4 mb-8">
                 <?= $pageHeader ?>
             </div>
         <?php endif; ?>
         
         <!-- Content -->
         <div class="animate-fade-in">
-            <?= $this->yield('content') ?>
+            <?= $content ?? '' ?>
         </div>
         
     </main>
     
     <!-- Footer -->
-    <?php if (!isset($hideFooter) || !$hideFooter): ?>
-        <?= $this->component('footer') ?>
+    <?php if ($show_footer ?? true): ?>
+        <?php include __DIR__ . '/../../app/Presentation/Components/footer.php'; ?>
     <?php endif; ?>
     
-    <!-- Modals Container -->
-    <div id="modals-container"></div>
-    
     <!-- Toast Notifications -->
-    <div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2"></div>
+    <?php include __DIR__ . '/../../app/Presentation/Components/toast.php'; ?>
+    
+    <!-- JavaScript -->
+    <script src="/assets/js/app.js"></script>
     
     <!-- Scripts -->
     <script>
@@ -157,40 +186,6 @@
             // Hide loading spinner
             hideLoading() {
                 document.getElementById('loading').style.display = 'none';
-            },
-            
-            // Show toast notification
-            showToast(message, type = 'info', duration = 5000) {
-                const toast = document.createElement('div');
-                const colors = {
-                    success: 'bg-green-500',
-                    error: 'bg-red-500',
-                    warning: 'bg-yellow-500',
-                    info: 'bg-blue-500'
-                };
-                
-                toast.className = `${colors[type]} text-white px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300 translate-x-full opacity-0`;
-                toast.innerHTML = `
-                    <div class="flex items-center justify-between">
-                        <span>${message}</span>
-                        <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                `;
-                
-                document.getElementById('toast-container').appendChild(toast);
-                
-                // Animate in
-                setTimeout(() => {
-                    toast.classList.remove('translate-x-full', 'opacity-0');
-                }, 100);
-                
-                // Auto remove
-                setTimeout(() => {
-                    toast.classList.add('translate-x-full', 'opacity-0');
-                    setTimeout(() => toast.remove(), 300);
-                }, duration);
             },
             
             // AJAX helper
@@ -237,6 +232,40 @@
             App.hideLoading();
         });
         
+        // Create particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            if (!particlesContainer) return;
+            
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Initialize particles
+        createParticles();
+        
+        // Global error handler for better UX
+        window.addEventListener('error', function(e) {
+            console.error('Erro capturado:', e.error);
+            if (window.showError) {
+                window.showError('Ocorreu um erro inesperado. Tente novamente.');
+            }
+        });
+        
+        // Global unhandled promise rejection handler
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('Promise rejeitada:', e.reason);
+            if (window.showError) {
+                window.showError('Erro de conexão. Verifique sua internet.');
+            }
+        });
+        
         // Handle AJAX form submissions
         document.addEventListener('submit', function(e) {
             if (e.target.classList.contains('ajax-form')) {
@@ -261,7 +290,9 @@
                     App.hideLoading();
                     
                     if (data.success) {
-                        App.showToast(data.message || 'Operação realizada com sucesso!', 'success');
+                        if (window.showSuccess) {
+                            window.showSuccess(data.message || 'Operação realizada com sucesso!');
+                        }
                         
                         if (data.redirect) {
                             setTimeout(() => {
@@ -269,12 +300,16 @@
                             }, 1000);
                         }
                     } else {
-                        App.showToast(data.message || 'Erro ao processar solicitação', 'error');
+                        if (window.showError) {
+                            window.showError(data.message || 'Erro ao processar solicitação');
+                        }
                     }
                 })
                 .catch(error => {
                     App.hideLoading();
-                    App.showToast('Erro de conexão', 'error');
+                    if (window.showError) {
+                        window.showError('Erro de conexão');
+                    }
                     console.error('Error:', error);
                 });
             }
