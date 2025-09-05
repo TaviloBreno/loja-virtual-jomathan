@@ -1,0 +1,25 @@
+{
+  "name": "sistema-php-neon",
+  "version": "1.0.0",
+  "description": "Sistema PHP com paleta Neon Futurista",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "watch": "vite build --watch",
+    "css:build": "tailwindcss -i ./resources/css/app.css -o ./public/assets/css/app.css --watch",
+    "css:prod": "tailwindcss -i ./resources/css/app.css -o ./public/assets/css/app.css --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/typography": "^0.5.10",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.3.6",
+    "vite": "^5.0.8"
+  },
+  "dependencies": {
+    "alpinejs": "^3.13.3"
+  }
+}

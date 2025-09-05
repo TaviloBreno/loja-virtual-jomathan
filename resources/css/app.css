@@ -1,0 +1,229 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Paleta Neon Futurista - Variáveis CSS */
+:root {
+  --electric-purple: #7C3AED;
+  --neon-green: #39FF14;
+  --absolute-black: #000000;
+  --medium-gray: #2E2E2E;
+  
+  /* Gradientes */
+  --gradient-neon: linear-gradient(135deg, var(--electric-purple), var(--neon-green));
+  --gradient-dark: linear-gradient(135deg, var(--absolute-black), var(--medium-gray));
+}
+
+/* Base Styles */
+@layer base {
+  body {
+    @apply bg-dark-950 text-white font-sans antialiased;
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold text-white;
+  }
+  
+  h1 {
+    @apply text-4xl lg:text-5xl;
+  }
+  
+  h2 {
+    @apply text-3xl lg:text-4xl;
+  }
+  
+  h3 {
+    @apply text-2xl lg:text-3xl;
+  }
+}
+
+/* Component Styles */
+@layer components {
+  /* Botões */
+  .btn {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4;
+  }
+  
+  .btn-primary {
+    @apply btn bg-primary-500 text-white hover:bg-primary-600 focus:ring-primary-300 shadow-electric;
+  }
+  
+  .btn-neon {
+    @apply btn bg-neon-500 text-dark-950 hover:bg-neon-400 focus:ring-neon-300 shadow-neon animate-glow;
+  }
+  
+  .btn-dark {
+    @apply btn bg-dark-800 text-white border border-dark-600 hover:bg-dark-700 focus:ring-dark-500;
+  }
+  
+  .btn-outline {
+    @apply btn border-2 border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white focus:ring-primary-300;
+  }
+  
+  /* Cards */
+  .card {
+    @apply bg-dark-800 border border-dark-600 rounded-2xl p-6 shadow-dark-lg backdrop-blur-sm;
+  }
+  
+  .card-neon {
+    @apply card border-neon-500 shadow-neon;
+  }
+  
+  .card-electric {
+    @apply card border-primary-500 shadow-electric;
+  }
+  
+  /* Inputs */
+  .input {
+    @apply w-full px-4 py-3 bg-dark-800 border border-dark-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-300;
+  }
+  
+  .input-primary {
+    @apply input focus:ring-primary-500;
+  }
+  
+  .input-neon {
+    @apply input focus:ring-neon-500;
+  }
+  
+  /* Badges */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+  }
+  
+  .badge-primary {
+    @apply badge bg-primary-500 text-white;
+  }
+  
+  .badge-neon {
+    @apply badge bg-neon-500 text-dark-950;
+  }
+  
+  .badge-dark {
+    @apply badge bg-dark-700 text-white;
+  }
+  
+  /* Alerts */
+  .alert {
+    @apply p-4 rounded-xl border-l-4 backdrop-blur-sm;
+  }
+  
+  .alert-success {
+    @apply alert bg-neon-500/10 border-neon-500 text-neon-400;
+  }
+  
+  .alert-error {
+    @apply alert bg-red-500/10 border-red-500 text-red-400;
+  }
+  
+  .alert-warning {
+    @apply alert bg-yellow-500/10 border-yellow-500 text-yellow-400;
+  }
+  
+  .alert-info {
+    @apply alert bg-primary-500/10 border-primary-500 text-primary-400;
+  }
+  
+  /* Navigation */
+  .nav-link {
+    @apply px-4 py-2 rounded-lg text-gray-300 hover:text-white hover:bg-dark-700 transition-all duration-300;
+  }
+  
+  .nav-link-active {
+    @apply nav-link bg-primary-500 text-white shadow-electric;
+  }
+  
+  /* Tables */
+  .table {
+    @apply w-full bg-dark-800 rounded-2xl overflow-hidden shadow-dark-lg;
+  }
+  
+  .table th {
+    @apply px-6 py-4 bg-dark-700 text-left text-sm font-semibold text-gray-300 uppercase tracking-wider;
+  }
+  
+  .table td {
+    @apply px-6 py-4 border-t border-dark-600 text-white;
+  }
+  
+  .table tr:hover {
+    @apply bg-dark-700/50;
+  }
+  
+  /* Modals */
+  .modal-overlay {
+    @apply fixed inset-0 bg-black/80 backdrop-blur-sm z-50;
+  }
+  
+  .modal-content {
+    @apply bg-dark-800 border border-dark-600 rounded-2xl shadow-2xl max-w-lg w-full mx-4;
+  }
+}
+
+/* Utility Classes */
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(135deg, var(--electric-purple), var(--neon-green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .bg-gradient-neon {
+    background: var(--gradient-neon);
+  }
+  
+  .bg-gradient-dark {
+    background: var(--gradient-dark);
+  }
+  
+  .glow-neon {
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+  }
+  
+  .glow-electric {
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
+  }
+  
+  .border-gradient {
+    border-image: linear-gradient(135deg, var(--electric-purple), var(--neon-green)) 1;
+  }
+}
+
+/* Animações customizadas */
+@keyframes pulse-neon {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(57, 255, 20, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.8), 0 0 30px rgba(57, 255, 20, 0.6);
+  }
+}
+
+@keyframes glow-electric {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(124, 58, 237, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.8), 0 0 30px rgba(124, 58, 237, 0.6);
+  }
+}
+
+/* Scrollbar customizada */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--medium-gray);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--electric-purple);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--neon-green);
+}
