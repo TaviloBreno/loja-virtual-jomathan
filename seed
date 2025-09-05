@@ -1,0 +1,117 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * Comando de seeder
+ * Permite executar seeders via linha de comando
+ */
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+use App\Infrastructure\Database\SeederManager;
+use App\Infrastructure\Database\DatabaseManager;
+
+// Carrega variáveis de ambiente
+if (file_exists(__DIR__ . '/.env')) {
+    $lines = file(__DIR__ . '/.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) {
+            continue;
+        }
+        list($name, $value) = explode('=', $line, 2);
+        $_ENV[trim($name)] = trim($value);
+    }
+}
+
+// Inicializa o banco de dados
+DatabaseManager::initialize();
+
+// Processa argumentos da linha de comando
+$command = $argv[1] ?? 'help';
+$seederManager = new SeederManager();
+
+switch ($command) {
+    case 'run':
+        echo "Executando todos os seeders...\n";
+        $seederManager->run();
+        echo "Seeders executados com sucesso!\n";
+        break;
+        
+    case 'fresh':
+        echo "Limpando dados e executando seeders...\n";
+        $tables = array_slice($argv, 2); // Tabelas específicas se fornecidas
+        $seederManager->fresh($tables);
+        echo "Dados limpos e seeders executados!\n";
+        break;
+        
+    case 'transaction':
+        echo "Executando seeders com transação...\n";
+        try {
+            $seederManager->runWithTransaction();
+            echo "Seeders executados com transação!\n";
+        } catch (Exception $e) {
+            echo "Erro: " . $e->getMessage() . "\n";
+            exit(1);
+        }
+        break;
+        
+    case 'specific':
+        if (empty($argv[2])) {
+            echo "Erro: Nome do seeder é obrigatório.\n";
+            echo "Uso: php seed specific NomeDoSeeder\n";
+            exit(1);
+        }
+        
+        $seeders = array_slice($argv, 2);
+        echo "Executando seeders específicos: " . implode(', ', $seeders) . "\n";
+        $seederManager->runSpecific($seeders);
+        echo "Seeders específicos executados!\n";
+        break;
+        
+    case 'list':
+        echo "Seeders disponíveis:\n";
+        $seeders = $seederManager->listSeeders();
+        
+        if (empty($seeders)) {
+            echo "Nenhum seeder encontrado.\n";
+        } else {
+            foreach ($seeders as $seeder) {
+                echo "  - {$seeder}\n";
+            }
+        }
+        break;
+        
+    case 'make':
+        if (!isset($argv[2])) {
+            echo "Erro: Nome do seeder é obrigatório.\n";
+            echo "Uso: php seed make nome_do_seeder\n";
+            exit(1);
+        }
+        
+        $name = $argv[2];
+        try {
+            $filename = $seederManager->createSeeder($name);
+            echo "Seeder criado: {$filename}\n";
+        } catch (Exception $e) {
+            echo "Erro: " . $e->getMessage() . "\n";
+            exit(1);
+        }
+        break;
+        
+    case 'help':
+    default:
+        echo "Comandos de seeder disponíveis:\n";
+        echo "  run              - Executa todos os seeders\n";
+        echo "  fresh [tables]   - Limpa dados e executa seeders\n";
+        echo "  transaction      - Executa seeders com transação\n";
+        echo "  specific <names> - Executa seeders específicos\n";
+        echo "  list             - Lista todos os seeders disponíveis\n";
+        echo "  make <name>      - Cria um novo seeder\n";
+        echo "  help             - Mostra esta ajuda\n";
+        echo "\nExemplos:\n";
+        echo "  php seed run\n";
+        echo "  php seed fresh users posts\n";
+        echo "  php seed specific UserSeeder PostSeeder\n";
+        echo "  php seed make UserSeeder\n";
+        break;
+}
